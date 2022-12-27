@@ -14,6 +14,9 @@ export const Editor = () =>
     layerManager: {
       appendTo: "#layer-container",
     },
+    pageManager: {
+      pages: []
+    },
     styleManager: {
       appendTo: "#style-container",
     },

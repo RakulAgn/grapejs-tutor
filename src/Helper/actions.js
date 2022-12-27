@@ -7,26 +7,30 @@ const getAllComponents = (model, result = []) => {
   return result;
 };
 
-export const RestrictTemplatesToOne = (editor) => {
+export const RestrictTemplatesToOne = (editor, page) => {
+  // console.log(editor.Pages.get(page).getFrames);
+
   editor.on("component:add", function (e) {
-    const GetAllComponentsFromCanvas = getAllComponents(
-      editor.DomComponents.getWrapper()
-    );
+    if (editor.Pages.getSelected) {
+      const GetAllComponentsFromCanvas = getAllComponents(
+        editor.DomComponents.getWrapper()
+      );
 
-    GetAllComponentsFromCanvas.map((canvas) => {
-      return blocks.map((item) => {
-        return item.SubCategory.map((subItem) => {
-          return subItem.modal.map((val) => {
-            let RequiredConiditon =
-              canvas.ccid !== val.id && canvas.ccid.includes(val.id);
+      GetAllComponentsFromCanvas.map((canvas) => {
+        return blocks.map((item) => {
+          return item.SubCategory.map((subItem) => {
+            return subItem.modal.map((val) => {
+              let RequiredConiditon =
+                canvas.ccid !== val.id && canvas.ccid.includes(val.id);
 
-            if (RequiredConiditon) {
-              showToast("info", "Remove the Existing Templates");
-              return e.remove();
-            }
+              if (RequiredConiditon) {
+                showToast("info", "Remove the Existing Templates");
+                return e.remove();
+              }
+            });
           });
         });
       });
-    });
+    }
   });
 };
